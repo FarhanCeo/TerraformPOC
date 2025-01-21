@@ -21,7 +21,10 @@ jobs:
         TF_VAR_vm_username: ${{ secrets.VM_USERNAME }}
         TF_VAR_vm_password: ${{ secrets.VM_PASSWORD }}
         TF_VAR_subscription_id: ${{ secrets.SUBSCRIPTIONID }}
-        
+
+    defaults:
+      run:
+        working-directory: ./
         
     steps:
     # Step 1: Check out the repository code
@@ -37,16 +40,16 @@ jobs:
 
     # Step 4: Initialize Terraform
     - name: Terraform Init
-      working-directory: azure-vm-poc
+      #working-directory: azure-vm-poc
       run: terraform init
 
     # Step 5: Run Terraform Plan
     - name: Terraform Plan
-      working-directory: azure-vm-poc
+      #working-directory: azure-vm-poc
       run: terraform plan -var-file="terraform.tfvars"
 
     # Step 6: Apply Terraform Changes (run only on main branch)
     - name: Terraform Apply
-      working-directory: azure-vm-poc
+      #working-directory: azure-vm-poc
       run: terraform apply -var-file="terraform.tfvars" -auto-approve
       if: github.ref == 'refs/heads/main'
