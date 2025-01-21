@@ -20,8 +20,13 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   }
 
   computer_name  = "hostname"
-  admin_username = var.admin_username
-  admin_password = var.admin_password
 
-  disable_password_authentication = false
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = file(var.ssh_public_key)
+  }
+  # admin_username = var.admin_username
+  # admin_password = var.admin_password
+
+  # disable_password_authentication = false
 }
