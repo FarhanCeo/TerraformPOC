@@ -1,0 +1,12 @@
+variable "rg_name" {}
+variable "rg_location" {}
+variable "vnet_name" {}
+variable "vnet_address" {}
+variable "subnet_name" {}
+variable "subnet_address" {}
+variable "vm_name" {}
+variable "vm_size" {}
+variable "vm_username" {}
+variable "vm_password" {}
+variable "subscription_id" {}
+variable "public_ip_name" {}

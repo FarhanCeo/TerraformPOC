@@ -1,0 +1,29 @@
+name: Terraform Scan
+
+on:
+  workflow_dispatch:
+    inputs:
+      working-directory:
+        description: 'Enter the working directory'
+        required: true
+        default: 'azure-vm-poc/modules/network'
+
+jobs:
+  terraform-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install TerraScan
+      - name: Install TerraScan
+        run: |
+          curl -L "$(curl -s https://api.github.com/repos/tenable/terrascan/releases/latest | grep -o -E "https://.+?_Linux_x86_64.tar.gz")" > terrascan.tar.gz
+          tar -xf terrascan.tar.gz terrascan && rm terrascan.tar.gz
+          install terrascan /usr/local/bin && rm terrascan
+
+      # Run TerraScan on Terraform files
+      - name: Run TerraScan
+        run: terrascan scan -d ${{ github.event.inputs.working-directory }}
